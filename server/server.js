@@ -23,11 +23,6 @@ io.on('connection', (socket) => {
 		createdAt: 123,
 	});
 
-	socket.emit('newMessage', {
-		from: 'Mike Craig',
-		text: 'Hi there!',
-		createdAd: 123,
-	});
 
 	socket.on('createEmail', (newEmail) => {
 		console.log('newEmail: ', newEmail);
@@ -35,7 +30,12 @@ io.on('connection', (socket) => {
 
 	socket.on('createMessage', (message) => {
 		console.log('message: ', message);
-	})
+		io.emit('newMessage', {
+			from: message.from,
+			text: message.text,
+			createdAd: new Date().getTime(),
+		});
+	});
 
 	socket.on('disconnect', () => {
 		console.log('User has been disconnected');
